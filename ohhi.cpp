@@ -5,8 +5,8 @@
  * Project 3: 0h h1
  * Fall 2017
  *
- * <#Name(s)#>
- * <#uniqname(s)#>
+ * Adam Schreck, Andrew Lanham
+ * schrecka, lanhama
  *
  * <#A description of the project here#>
  */
@@ -21,8 +21,18 @@
 ///////////////////////////////////////
 
 int count_unknown_squares(const int board[MAX_SIZE][MAX_SIZE], int size) {
-    // your code here
-    return 0;
+    int i = 0;
+    int k = 0;
+    int numUnknown = 0;
+    
+    for (i = 0; i < size; ++i) {
+        for (k = 0; k < size; ++k) {
+            if (board[i][k] == UNKNOWN) {
+                numUnknown += 1;
+            }
+        }
+    }
+    return numUnknown;
 }
 
 
@@ -34,9 +44,20 @@ bool row_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
                                 int size,
                                 int row,
                                 int color) {
-    // your code here
-    return false;
+    int i = 0;
+    
+    for (i = 0; i < size; i++) {
+        if (board[row][i] == color) {
+            if (board[row][i + 1] == color) {
+                if (board[row][i + 2] == color) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
+
 
 bool col_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
                                 int size,
