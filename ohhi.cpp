@@ -63,8 +63,17 @@ bool col_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
                                 int size,
                                 int col,
                                 int color) {
-    // your code here
-    return false;
+    int i;
+    for (i = 0; i < size; i++) {
+        if (board[i][col] == color) {
+            if (board[i + 1][col] == color) {
+                if (board[i + 2][col] == color) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 bool board_has_no_threes(const int board[MAX_SIZE][MAX_SIZE], int size) {
