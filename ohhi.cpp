@@ -46,7 +46,7 @@ bool row_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
                                 int color) {
     int i = 0;
     
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < (size - 2); i++) {
         if (board[row][i] == color) {
             if (board[row][i + 1] == color) {
                 if (board[row][i + 2] == color) {
@@ -64,7 +64,7 @@ bool col_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
                                 int col,
                                 int color) {
     int i;
-    for (i = 0; i < size; i++) {
+    for (i = 0; i < (size - 2); i++) {
         if (board[i][col] == color) {
             if (board[i + 1][col] == color) {
                 if (board[i + 2][col] == color) {
@@ -77,18 +77,23 @@ bool col_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
 }
 
 bool board_has_no_threes(const int board[MAX_SIZE][MAX_SIZE], int size) {
-            for (color = 1; color <= 2; color++) {
-                for (row = 0; row < size; row++) {
-                    for (col = 0; col < size; col++) {
-                        bool colThree = (col_has_no_threes_of_color(board, size, col, BLUE));
-                        bool rowThree = (row_has_no_threes_of_color(board, size, row, RED));
-                    }
-                }
+    int row;
+    int column;
+    int color;
+    
+    for (color = RED; color <= BLUE; color++) {
+        for (row = 0; row < size; row++) {
+            if (!(row_has_no_threes_of_color(board, size, row, color))) {
+                return false;
             }
-            if (rowThree == true && colThree == true) {
-        return true;
-}
-return false;
+        }
+        for (column = 0; column < size; column++) {
+            if (!(col_has_no_threes_of_color(board, size, column, color))) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool rows_are_different(const int board[MAX_SIZE][MAX_SIZE],
