@@ -235,7 +235,40 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
                        int size,
                        int row,
                        bool announce) {
-    // your code here
+    int i;
+    int k;
+    int n;
+    int redCount = 0;
+    int blueCount = 0;
+    for (i = 0; i < size; i++) {
+        if (board[row][i] == RED) {
+            redCount++;
+        }
+        if (board[row][i] == BLUE) {
+            blueCount++;
+        }
+        
+    }
+    if (redCount == (size / 2)) {
+        for (k = 0; k < size;k++) {
+            if (board[row][k] == UNKNOWN) {
+                mark_square_as(board, size, row, k, BLUE, announce);
+            }
+        }
+    }
+    if (blueCount == (size / 2)) {
+        for (n = 0; n < size; n++) {
+            if (board[row][n] == UNKNOWN) {
+                mark_square_as(board, size, row, n, BLUE, announce);
+            }
+        }
+    }
+}
+
+void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
+                          int size,
+                          int col,
+                          bool announce) {
 }
 
 void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
