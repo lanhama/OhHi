@@ -153,14 +153,59 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
                           int size,
                           int row,
                           bool announce) {
-    // your code here
+    int i;
+    
+    //checks for two in a row
+    for (i = 0; i < (size - 2); i++) {
+        if (i == 0 && board[row][i] == UNKNOWN) {
+            if (board[row][i + 1] == board[row][i + 2]) {
+                if (board[row][i + 1] == BLUE) {
+                    mark_square_as(board, size, row, i, RED, announce);
+                }
+                if (board[row][i + 1] == RED) {
+                    mark_square_as(board, size, row, i + 1, BLUE, announce);
+                }
+            }
+        }
+        if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
+            if (board[row][i] == BLUE) {
+                mark_square_as(board, size, row, (i + 2), RED, announce);
+            }
+            if (board[row][i] == RED) {
+                mark_square_as(board, size, row, (i + 2), BLUE, announce);
+            }
+        }
+    }
+    
 }
 
 void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
                              int size,
                              int col,
                              bool announce) {
-    // your code here
+    int i;
+    
+    //checks for two in a row
+    for (i = 0; i < (size - 2); i++) {
+        if (i == 0 && board[i][col] == UNKNOWN) {
+            if (board[i + 1][col] == board[i + 2][col]) {
+                if (board[i + 1][col] == BLUE) {
+                    mark_square_as(board, size, i, col, RED, announce);
+                }
+                if (board[i + 1][col] == RED) {
+                    mark_square_as(board, size, i, col, BLUE, announce);
+                }
+            }
+        }
+        if (board[i][col] == board[i + 1][col] && board[i + 2][col] == UNKNOWN){
+            if (board[i][col] == BLUE) {
+                mark_square_as(board, size, (i + 2), col, RED, announce);
+            }
+            if (board[i][col] == RED) {
+                mark_square_as(board, size, (i + 2), col, BLUE, announce);
+            }
+        }
+    }
 }
 
 
