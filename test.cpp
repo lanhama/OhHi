@@ -22,7 +22,7 @@ void test_board_has_no_threes();
 void test_rows_are_different();
 void test_cols_are_different();
 void testing_board_has_no_duplicates();
-
+void testing_solve_three_in_a_row();
 
 int main() {
     test_count_unknown_squares();
@@ -32,6 +32,7 @@ int main() {
     test_rows_are_different();
     test_cols_are_different();
     testing_board_has_no_duplicates();
+    testing_solve_three_in_a_row();
 
     return 0;
 }
@@ -446,5 +447,53 @@ void testing_board_has_no_duplicates() {
     cout << "should = 0 (false): "
     << board_has_no_duplicates(board, size_5) << endl;
     
+    cout << endl;
+}
+
+void testing_solve_three_in_a_row() {
+    int board[MAX_SIZE][MAX_SIZE];
+    int announce = true;
+    
+    cout << "testing solve_three_in_a_row()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"OO--",
+                             "XXOO",
+                             "XXO-",
+                             "O-X-"};
+    
+    int size_1 = 4;
+    int row_1 = 0;
+    read_board_from_string(board, test_board_1, size_1);
+    print_board(board, size_1);
+    solve_three_in_a_row(board, size_1, row_1, announce);
+    print_board(board, size_1);
+    
+    // test case 2
+    string test_board_2[] = {"OO--",
+                             "XXOO",
+                             "XXO-",
+                             "O-X-"};
+    
+    int size_2 = 4;
+    int row_2 = 2;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "no change: ";
+    solve_three_in_a_row(board, size_2, row_2, announce);
+    cout << endl;
+    
+    //test case 3
+    string test_board_3[] = {"O-OX--",
+                             "-XX---",
+                             "X-----",
+                             "-O----",
+                             "OXO-O-",
+                             "OXO-O-"};
+    int size_3 = 6;
+    int row_3 = 1;
+    read_board_from_string(board, test_board_3, size_3);
+    print_board(board, size_3);
+    solve_three_in_a_row(board, size_3, row_3, announce);
+    print_board(board, size_3);
     cout << endl;
 }
