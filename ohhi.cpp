@@ -265,11 +265,7 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
     }
 }
 
-void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
-                          int size,
-                          int col,
-                          bool announce) {
-}
+
 
 void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
                           int size,
@@ -291,14 +287,14 @@ void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
     }
     if (redCount == (size / 2)) {
         for (k = 0; k < size; k++) {
-            if (board[i][col] == UNKNOWN) {
+            if (board[k][col] == UNKNOWN) {
                 mark_square_as(board, size, k, col, BLUE, announce);
             }
         }
     }
     if (blueCount == (size / 2)) {
         for (n = 0; n < size; n++) {
-            if (board[i][col] == UNKNOWN) {
+            if (board[n][col] == UNKNOWN) {
                 mark_square_as(board, size, n, col, RED, announce);
             }
         }
