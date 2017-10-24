@@ -159,35 +159,24 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
     for (i = 0; i < (size - 2); i++) {
         if (i == 0 && board[row][i] == UNKNOWN) {
             if (board[row][i + 1] == board[row][i + 2]) {
-                if (board[row][i + 1] == BLUE) {
-                    mark_square_as(board, size, row, i, RED, announce);
-                }
-                if (board[row][i + 1] == RED) {
-                    mark_square_as(board, size, row, i, BLUE, announce);
-                }
+                mark_square_as(board, size, row, i,
+                               opposite_color(board[row][i + 1]), announce);
             }
         }
         if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
-            if (board[row][i] == BLUE) {
-                mark_square_as(board, size, row, (i + 2), RED, announce);
-            }
-            else if (board[row][i] == RED) {
-                mark_square_as(board, size, row, (i + 2), BLUE, announce);
-            }
+            mark_square_as(board, size, row, (i + 2),
+                           opposite_color(board[row][i]), announce);
         }
+    //checks for color sandwich
         if (board[row][i + 1] == UNKNOWN) {
             if (board[row][i] == board[row][i + 2]) {
-                if (board[row][i] == BLUE) {
-                    mark_square_as(board, size, row, (i + 1), RED, announce);
-                }
-                else if (board[row][i] == RED) {
-                    mark_square_as(board, size, row, (i + 1), BLUE, announce);
-                }
-
-                }
+                mark_square_as(board, size, row, (i + 1),
+                               opposite_color(board[row][i]), announce);
             }
         }
     }
+}
+
 
 void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
                              int size,
@@ -195,35 +184,23 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
                              bool announce) {
     int i;
     
-    //checks for two in a column
+    //checks for two consecutive in a column
     for (i = 0; i < (size - 2); i++) {
         if (i == 0 && board[i][col] == UNKNOWN) {
             if (board[i + 1][col] == board[i + 2][col]) {
-                if (board[i + 1][col] == BLUE) {
-                    mark_square_as(board, size, i, col, RED, announce);
-                }
-                if (board[i + 1][col] == RED) {
-                    mark_square_as(board, size, i, col, BLUE, announce);
-                }
+                mark_square_as(board, size, i, col,
+                               opposite_color(board[i + 1][col]), announce);
             }
         }
         if (board[i][col] == board[i + 1][col] && board[i + 2][col] == UNKNOWN){
-            if (board[i][col] == BLUE) {
-                mark_square_as(board, size, (i + 2), col, RED, announce);
-            }
-            if (board[i][col] == RED) {
-                mark_square_as(board, size, (i + 2), col, BLUE, announce);
-            }
+            mark_square_as(board, size, (i + 2), col,
+                           opposite_color(board[i][col]), announce);
         }
+    //checks for color sandwich
         if (board[i + 1][col] == UNKNOWN) {
             if (board[i][col] == board[i + 2][col]) {
-                if (board[i][col] == BLUE) {
-                    mark_square_as(board, size, (i + 1), col, RED, announce);
-                }
-                else if (board[i][col] == RED) {
-                    mark_square_as(board, size, (i + 1), col, BLUE, announce);
-                }
-                
+                mark_square_as(board, size, (i + 1), col,
+                               opposite_color(board[i][col]), announce);
             }
         }
     }
