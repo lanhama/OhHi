@@ -1,8 +1,8 @@
 /**
- * ohhi.cpp
+ * test.cpp
  *
  * EECS 183
- * Project 3: 0h h1
+ * Project 3: 0h h1 Test Suite
  * Fall 2017
  *
  * Andrew Lanham, Adam Schreck
@@ -12,331 +12,663 @@
  */
 
 #include <iostream>
-#include <cctype>
 #include "utility.h"
 #include "ohhi.h"
 
-///////////////////////////////////////
-// UTILITY FUNCTIONS //////////////////
-///////////////////////////////////////
+void test_count_unknown_squares();
+void test_row_has_no_threes_of_color();
+void test_col_has_no_threes_of_color();
+void test_board_has_no_threes();
+void test_rows_are_different();
+void test_cols_are_different();
+void test_board_has_no_duplicates();
+void test_solve_three_in_a_row();
+void test_solve_three_in_a_column();
+void test_solve_balance_row();
+void test_solve_balance_column();
+void test_board_is_solved();
 
-int count_unknown_squares(const int board[MAX_SIZE][MAX_SIZE], int size) {
-    int i = 0;
-    int k = 0;
-    int numUnknown = 0;
+
+int main() {
+    test_count_unknown_squares();
+    test_row_has_no_threes_of_color();
+    test_col_has_no_threes_of_color();
+    test_board_has_no_threes();
+    test_rows_are_different();
+    test_cols_are_different();
+    test_board_has_no_duplicates();
+    test_solve_three_in_a_row();
+    test_solve_three_in_a_column();
+    test_solve_balance_row();
+    test_solve_balance_column();
     
-    for (i = 0; i < size; ++i) {
-        for (k = 0; k < size; ++k) {
-            if (board[i][k] == UNKNOWN) {
-                numUnknown += 1;
-            }
-        }
-    }
-    return numUnknown;
+    return 0;
 }
 
 
-///////////////////////////////////////
-// VALIDITY CHECKS ////////////////////
-///////////////////////////////////////
-
-bool row_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
-                                int size,
-                                int row,
-                                int color) {
-    int i = 0;
+void test_count_unknown_squares() {
+    int board[MAX_SIZE][MAX_SIZE];
     
-    for (i = 0; i < (size - 2); i++) {
-        if (board[row][i] == color) {
-            if (board[row][i + 1] == color) {
-                if (board[row][i + 2] == color) {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-
-
-bool col_has_no_threes_of_color(const int board[MAX_SIZE][MAX_SIZE],
-                                int size,
-                                int col,
-                                int color) {
-    int i;
-    for (i = 0; i < (size - 2); i++) {
-        if (board[i][col] == color) {
-            if (board[i + 1][col] == color) {
-                if (board[i + 2][col] == color) {
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool board_has_no_threes(const int board[MAX_SIZE][MAX_SIZE], int size) {
-    int row;
-    int column;
-    int color;
+    cout << "testing count_unknown_squares()" << endl;
     
-    for (color = RED; color <= BLUE; color++) {
-        for (row = 0; row < size; row++) {
-            if (!(row_has_no_threes_of_color(board, size, row, color))) {
-                return false;
-            }
-        }
-        for (column = 0; column < size; column++) {
-            if (!(col_has_no_threes_of_color(board, size, column, color))) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool rows_are_different(const int board[MAX_SIZE][MAX_SIZE],
-                        int size,
-                        int row1,
-                        int row2) {
-    int i;
+    // test case 1
+    string test_board_1[] = {"O-OX",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_1 = 4;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << count_unknown_squares(board, size_1) << " = 9" << endl;
     
-    for (i = 0; i < size; i++) {
-        if (board[row1][i] == UNKNOWN || board[row2][i] == UNKNOWN) {
-            return true;
-        }
-        if (board[row1][i] != board[row2][i]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool cols_are_different(const int board[MAX_SIZE][MAX_SIZE],
-                        int size,
-                        int col1,
-                        int col2) {
-    int i;
+    // test case 2
+    string test_board_2[] = {"O-OX--",
+        "OO----",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_2 = 6;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << count_unknown_squares(board, size_2) << " = 21" << endl;
     
-    for (i = 0; i < size; i++) {
-        if (board[i][col1] == UNKNOWN || board[i][col2] == UNKNOWN) {
-            return true;
-        }
-        if (board[i][col1] != board[i][col2]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool board_has_no_duplicates(const int board[MAX_SIZE][MAX_SIZE], int size) {
-    int i;
+    // test case 3
+    string test_board_3[] = {"O-OX--O-",
+        "OO----X-",
+        "X------O",
+        "-O----XX",
+        "OXO-O-OO",
+        "OXO-O---",
+        "OXO-O-OO",
+        "OXO-O-OO"};
     
-    for (i = 0; i < (size - 1); i++) {
-        if (!(rows_are_different(board, size, i, (i + 1)))) {
-            return false;
-        }
-        if (!(cols_are_different(board, size, i, (i + 1)))) {
-            return false;
-        }
-    }
-    return true;
-}
-
-
-///////////////////////////////////////
-// SOLVING FUNCTIONS //////////////////
-///////////////////////////////////////
-
-void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
-                          int size,
-                          int row,
-                          bool announce) {
-    int i;
+    int size_3 = 8;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << count_unknown_squares(board, size_3) << " = 30" << endl;
     
-    //checks for two in a row
-    for (i = 0; i < (size - 2); i++) {
-        if (i == 0 && board[row][i] == UNKNOWN) {
-            if (board[row][i + 1] == board[row][i + 2]) {
-                if (board[row][i + 1] == BLUE) {
-                    mark_square_as(board, size, row, i, RED, announce);
-                }
-                if (board[row][i + 1] == RED) {
-                    mark_square_as(board, size, row, i + 1, BLUE, announce);
-                }
-            }
-        }
-        if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
-            if (board[row][i] == BLUE) {
-                mark_square_as(board, size, row, (i + 2), RED, announce);
-            }
-            else if (board[row][i] == RED) {
-                mark_square_as(board, size, row, (i + 2), BLUE, announce);
-            }
-        }
-        if (board[row][i + 1] == UNKNOWN) {
-            if (board[row][i] == board[row][i + 2]) {
-                if (board[row][i] == BLUE) {
-                    mark_square_as(board, size, row, (i + 1), RED, announce);
-                }
-                else if (board[row][i] == RED) {
-                    mark_square_as(board, size, row, (i + 1), BLUE, announce);
-                }
-
-                }
-            }
-        }
-    }
-
-void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
-                             int size,
-                             int col,
-                             bool announce) {
-    int i;
+    // test case 4
+    string test_board_4[] = {"-X",
+        "OO"};
+    int size_4 = 2;
+    read_board_from_string(board, test_board_4, size_4);
+    cout << count_unknown_squares(board, size_4) << " = 1" << endl;
     
-    //checks for two in a row
-    for (i = 0; i < (size - 2); i++) {
-        if (i == 0 && board[i][col] == UNKNOWN) {
-            if (board[i + 1][col] == board[i + 2][col]) {
-                if (board[i + 1][col] == BLUE) {
-                    mark_square_as(board, size, i, col, RED, announce);
-                }
-                if (board[i + 1][col] == RED) {
-                    mark_square_as(board, size, i, col, BLUE, announce);
-                }
-            }
-        }
-        if (board[i][col] == board[i + 1][col] && board[i + 2][col] == UNKNOWN){
-            if (board[i][col] == BLUE) {
-                mark_square_as(board, size, (i + 2), col, RED, announce);
-            }
-            if (board[i][col] == RED) {
-                mark_square_as(board, size, (i + 2), col, BLUE, announce);
-            }
-        }
-        if (board[i + 1][col] == UNKNOWN) {
-            if (board[i][col] == board[i + 2][col]) {
-                if (board[i][col] == BLUE) {
-                    mark_square_as(board, size, (i + 1), col, RED, announce);
-                }
-                else if (board[i][col] == RED) {
-                    mark_square_as(board, size, (i + 1), col, BLUE, announce);
-                }
-                
-            }
-        }
-    }
+    cout << endl;
 }
 
-
-void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
-                       int size,
-                       int row,
-                       bool announce) {
-    int i;
-    int k;
-    int n;
-    int redCount = 0;
-    int blueCount = 0;
-    for (i = 0; i < size; i++) {
-        if (board[row][i] == RED) {
-            redCount++;
-        }
-        if (board[row][i] == BLUE) {
-            blueCount++;
-        }
-        
-    }
-    if (redCount == (size / 2)) {
-        for (k = 0; k < size;k++) {
-            if (board[row][k] == UNKNOWN) {
-                mark_square_as(board, size, row, k, BLUE, announce);
-            }
-        }
-    }
-    if (blueCount == (size / 2)) {
-        for (n = 0; n < size; n++) {
-            if (board[row][n] == UNKNOWN) {
-                mark_square_as(board, size, row, n, BLUE, announce);
-            }
-        }
-    }
-}
-
-void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
-                          int size,
-                          int col,
-                          bool announce) {
-    int i;
-    int k;
-    int n;
-    int redCount = 0;
-    int blueCount = 0;
+void test_row_has_no_threes_of_color() {
+    int board[MAX_SIZE][MAX_SIZE];
     
-    for (i = 0; i < size; i++) {
-        if (board[i][col] == RED) {
-            redCount++;
-        }
-        else if (board[i][col] == BLUE) {
-            blueCount++;
-        }
-    }
-    if (redCount == (size / 2)) {
-        for (k = 0; k < size; k++) {
-            if (board[k][col] == UNKNOWN) {
-                mark_square_as(board, size, k, col, BLUE, announce);
-            }
-        }
-    }
-    if (blueCount == (size / 2)) {
-        for (n = 0; n < size; n++) {
-            if (board[n][col] == UNKNOWN) {
-                mark_square_as(board, size, n, col, RED, announce);
-            }
-        }
-    }
+    cout << "testing row_has_no_threes_of_color()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"O-OX",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_1 = 4;
+    int row_1 = 0;
+    int color_1 = BLUE;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 1 (true): "
+    << row_has_no_threes_of_color(board, size_1, row_1, color_1) << endl;
+    
+    
+    // test case 2
+    string test_board_2[] = {"OOO-",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_2 = 4;
+    int row_2 = 0;
+    int color_2 = BLUE;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 0 (false): "
+    << row_has_no_threes_of_color(board, size_2, row_2, color_2) << endl;
+    
+    // test case 3
+    string test_board_3[] = {"OOO-",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_3 = 4;
+    int row_3 = 1;
+    int color_3 = BLUE;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 1 (true): "
+    << row_has_no_threes_of_color(board, size_3, row_3, color_3) << endl;
+    
+    // test case 4
+    string test_board_4[] = {"OOO-",
+        "OO--",
+        "-XXX",
+        "-O--"};
+    int size_4 = 4;
+    int row_4 = 2;
+    int color_4 = RED;
+    read_board_from_string(board, test_board_4, size_4);
+    cout << "should = 0 (false): "
+    << row_has_no_threes_of_color(board, size_4, row_4, color_4) << endl;
+    
+    // test case 5
+    string test_board_5[] = {"OOO-",
+        "OO--",
+        "-XXX",
+        "-O--"};
+    int size_5 = 4;
+    int row_5 = 0;
+    int color_5 = RED;
+    read_board_from_string(board, test_board_5, size_5);
+    cout << "should = 1 (true): "
+    << row_has_no_threes_of_color(board, size_5, row_5, color_5) << endl;
+    
+    // test case 6
+    string test_board_6[] = {"O-XX",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_6 = 4;
+    int row_6 = 0;
+    int color_6 = RED;
+    read_board_from_string(board, test_board_6, size_6);
+    cout << "should = 1 (true): "
+    << row_has_no_threes_of_color(board, size_6, row_6, color_6) << endl;
+    
+    cout << endl;
+}
+
+void test_col_has_no_threes_of_color() {
+    int board[MAX_SIZE][MAX_SIZE];
+    
+    cout << "testing col_has_no_threes_of_color()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"O-OX",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_1 = 4;
+    int col_1 = 0;
+    int color_1 = BLUE;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 1 (true): "
+    << col_has_no_threes_of_color(board, size_1, col_1, color_1) << endl;
+    
+    // test case 2
+    string test_board_2[] = {"O-OX",
+        "OO--",
+        "O---",
+        "-O--"};
+    int size_2 = 4;
+    int col_2 = 0;
+    int color_2 = BLUE;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 0 (false): "
+    << col_has_no_threes_of_color(board, size_2, col_2, color_2) << endl;
+    
+    //test case 3
+    string test_board_3[] = {"O-OX--",
+        "OO----",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_3 = 6;
+    int col_3 = 0;
+    int color_3 = BLUE;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 1 (true): "
+    << col_has_no_threes_of_color(board, size_3, col_3, color_3) << endl;
+    
+    //test case 4
+    string test_board_4[] = {"O-OX--",
+        "OO----",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_4 = 6;
+    int col_4 = 1;
+    int color_4 = BLUE;
+    read_board_from_string(board, test_board_4, size_4);
+    cout << "should = 1 (true): "
+    << col_has_no_threes_of_color(board, size_4, col_4, color_4) << endl;
+    
+    // test case 5
+    string test_board_5[] = {"O-OX",
+        "OO--",
+        "O---",
+        "-O--"};
+    int size_5 = 4;
+    int col_5 = 0;
+    int color_5 = RED;
+    read_board_from_string(board, test_board_5, size_5);
+    cout << "should = 1 (true): "
+    << col_has_no_threes_of_color(board, size_5, col_5, color_5) << endl;
+    
+    //test case 6
+    string test_board_6[] = {"O-OX--",
+        "OO----",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_6 = 6;
+    int col_6 = 1;
+    int color_6 = RED;
+    read_board_from_string(board, test_board_6, size_6);
+    cout << "should = 1 (true): "
+    << col_has_no_threes_of_color(board, size_6, col_6, color_6) << endl;
+    
+    cout << endl;
+}
+
+void test_board_has_no_threes() {
+    int board[MAX_SIZE][MAX_SIZE];
+    
+    cout << "testing board_has_no_threes()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"O-OX",
+        "OO--",
+        "X---",
+        "-O--"};
+    int size_1 = 4;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 1 (true): "
+    << board_has_no_threes(board, size_1) << endl;
+    
+    // test case 2
+    string test_board_2[] = {"O-OX",
+        "OO--",
+        "XO--",
+        "-O--"};
+    int size_2 = 4;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 0 (false): "
+    << board_has_no_threes(board, size_2) << endl;
+    
+    // test case 3
+    string test_board_3[] = {"O-OX",
+        "OO--",
+        "XO--",
+        "-XXX"};
+    int size_3 = 4;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 0 (false): "
+    << board_has_no_threes(board, size_3) << endl;
+    
+    //test case 4
+    string test_board_4[] = {"O-OX--",
+        "OO----",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_4 = 6;
+    read_board_from_string(board, test_board_4, size_4);
+    cout << "should = 1 (true): "
+    << board_has_no_threes(board, size_4) << endl;
+    
+    cout << endl;
+}
+
+void test_rows_are_different() {
+    int board[MAX_SIZE][MAX_SIZE];
+    
+    cout << "testing rows_are_different()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"O-OX",
+        "OOXX",
+        "OOXX",
+        "-XXX"};
+    int size_1 = 4;
+    int row1_1 = 0;
+    int row2_1 = 1;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 1 (true): "
+    << rows_are_different(board, size_1, row1_1, row2_1) << endl;
+    
+    // test case 2
+    string test_board_2[] = {"O-OX",
+        "OOXX",
+        "OOXX",
+        "-XXX"};
+    int size_2 = 4;
+    int row1_2 = 1;
+    int row2_2 = 2;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 0 (false): "
+    << rows_are_different(board, size_2, row1_2, row2_2) << endl;
+    
+    // test case 3
+    string test_board_3[] = {"O-OX",
+        "OO--",
+        "OO--",
+        "-XXX"};
+    int size_3 = 4;
+    int row1_3 = 1;
+    int row2_3 = 2;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 1 (true): "
+    << rows_are_different(board, size_3, row1_3, row2_3) << endl;
+    
+    cout << endl;
+}
+
+void test_cols_are_different() {
+    int board[MAX_SIZE][MAX_SIZE];
+    
+    cout << "testing cols_are_different()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"XXOO",
+        "OOXX",
+        "OOXX",
+        "XXOO"};
+    int size_1 = 4;
+    int row1_1 = 0;
+    int row2_1 = 1;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 0 (false): "
+    << cols_are_different(board, size_1, row1_1, row2_1) << endl;
+    
+    // test case 2
+    string test_board_2[] = {"XXOO",
+        "OOXX",
+        "OOXX",
+        "XXOO"};
+    int size_2 = 4;
+    int row1_2 = 1;
+    int row2_2 = 2;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 1 (true): "
+    << cols_are_different(board, size_2, row1_2, row2_2) << endl;
+    
+    // test case 3
+    string test_board_3[] = {"XXOO",
+        "O-XX",
+        "OOXX",
+        "XXOO"};
+    int size_3 = 4;
+    int row1_3 = 1;
+    int row2_3 = 2;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 1 (true): "
+    << cols_are_different(board, size_3, row1_3, row2_3) << endl;
+    
+    cout << endl;
+}
+
+void test_board_has_no_duplicates() {
+    int board[MAX_SIZE][MAX_SIZE];
+    
+    cout << "testing board_has_no_duplicates()" << endl;
+    
+    // test case 1
+    string test_board_1[] = {"OO--",
+        "XXOO",
+        "XXO-",
+        "O-X-"};
+    int size_1 = 4;
+    read_board_from_string(board, test_board_1, size_1);
+    cout << "should = 1 (true): "
+    << board_has_no_duplicates(board, size_1) << endl;
+    
+    // test case 2
+    string test_board_2[] = {"OO--",
+        "XXOO",
+        "XXOO",
+        "O-O-"};
+    int size_2 = 4;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "should = 0 (false): "
+    << board_has_no_duplicates(board, size_2) << endl;
+    
+    // test case 3
+    string test_board_3[] = {"OO--",
+        "O-O-",
+        "XXOO",
+        "XXOO"};
+    int size_3 = 4;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 0 (false): "
+    << board_has_no_duplicates(board, size_3) << endl;
+    
+    // test case 4
+    string test_board_4[] = {"OOOO",
+        "O-O-",
+        "X-OO",
+        "XXOO"};
+    int size_4 = 4;
+    read_board_from_string(board, test_board_4, size_4);
+    cout << "should = 1 (true): "
+    << board_has_no_duplicates(board, size_4) << endl;
+    
+    // test case 5
+    string test_board_5[] = {"OOOO",
+        "O-OO",
+        "X-OO",
+        "XXOO"};
+    int size_5 = 4;
+    read_board_from_string(board, test_board_5, size_5);
+    cout << "should = 0 (false): "
+    << board_has_no_duplicates(board, size_5) << endl;
+    
+    cout << endl;
+}
+
+void test_solve_three_in_a_row() {
+    int board[MAX_SIZE][MAX_SIZE];
+    int announce = true;
+    
+    cout << "testing solve_three_in_a_row()" << endl;
+    
+    // test case 1
+    string test_board_1[] =
+       {"OO--",
+        "XXOO",
+        "XXO-",
+        "O-X-"};
+    
+    int size_1 = 4;
+    int row_1 = 0;
+    read_board_from_string(board, test_board_1, size_1);
+    print_board(board, size_1);
+    cout << endl;
+    solve_three_in_a_row(board, size_1, row_1, announce);
+    print_board(board, size_1);
+    
+    // test case 2
+    string test_board_2[] = {
+        "OO--",
+        "XXOO",
+        "XXO-",
+        "O-X-"};
+    
+    int size_2 = 4;
+    int row_2 = 2;
+    read_board_from_string(board, test_board_2, size_2);
+    cout << "no change: " << endl;
+    solve_three_in_a_row(board, size_2, row_2, announce);
+    cout << endl;
+    
+    //test case 3
+    string test_board_3[] = {
+        "O-OX--",
+        "-XX---",
+        "X-----",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_3 = 6;
+    int row_3 = 1;
+    read_board_from_string(board, test_board_3, size_3);
+    print_board(board, size_3);
+    cout << endl;
+    solve_three_in_a_row(board, size_3, row_3, announce);
+    print_board(board, size_3);
+    cout << endl;
+}
+
+ void test_solve_three_in_a_column() {
+    int board[MAX_SIZE][MAX_SIZE];
+    int announce = true;
+    cout << "testing solve_three_in_a_column()" << endl;
+    
+    //test case 1
+    string test_board_1[] = {
+        "O-OX--",
+        "OXX---",
+        "------",
+        "-O----",
+        "OXO-O-",
+        "OXO-O-"};
+    int size_1 = 6;
+    int col_1 = 0;
+     
+     read_board_from_string(board, test_board_1, size_1);
+     print_board(board, size_1);
+     cout << endl;
+     solve_three_in_a_column(board, size_1, col_1, announce);
+     print_board(board, size_1);
+     cout << endl;
+     
+    // test case 2
+     string test_board_2[] = {
+         "O-OXX-",
+         "OXX-X-",
+         "------",
+         "-O----",
+         "OXO-O-",
+         "OXO-O-"};
+     
+     int size_2 = 6;
+     int col_2 = 4;
+     
+     read_board_from_string(board, test_board_2, size_2);
+     print_board(board, size_2);
+     cout << endl;
+     solve_three_in_a_column(board, size_2, col_2, announce);
+     print_board(board, size_2);
+     cout << endl;
+     
+     // test case 3
+     string test_board_3[] = {
+         "O-OXX-",
+         "OXX-X-",
+         "------",
+         "-O----",
+         "OXO-O-",
+         "OXO-O-"};
+     
+     int size_3 = 6;
+     int col_3 = 4;
+     
+     read_board_from_string(board, test_board_3, size_3);
+     print_board(board, size_3);
+     cout << endl;
+     solve_three_in_a_column(board, size_3, col_3, announce);
+     print_board(board, size_3);
+     cout << endl;
+}
+
+void test_solve_balance_row() {
+    int board[MAX_SIZE][MAX_SIZE];
+    int announce = true;
+    
+    cout << "testing solve_balance_row" << endl;
+// test case 1
+    string test_board_1[] =
+    {"X-X-",
+     "XXOO",
+     "----",
+    "XXOX"};
+    
+    int size_1 = 4;
+    int row_1 = 0;
+    
+    read_board_from_string(board, test_board_1, size_1);
+    print_board(board, size_1);
+    cout << endl;
+    solve_balance_row(board, size_1, row_1, announce);
+    print_board(board, size_1);
+    cout << endl;
+    
+// test case 2
+    string test_board_2[] =
+       {"X-X-",
+        "XXOO",
+        "----",
+        "XXOX"};
+    
+    int size_2 = 4;
+    int row_2 = 3;
+    
+    read_board_from_string(board, test_board_2, size_2);
+    print_board(board, size_2);
+    cout << "no change" << endl;
+    solve_balance_row(board, size_2, row_2, announce);
+    print_board(board, size_2);
+    cout << endl;
+    
+//test case 3
+    string test_board_3[] =
+       {"X-X-",
+        "XXOO",
+        "--OO",
+        "XXOX"};
+    
+    int size_3 = 4;
+    int row_3 = 2;
+    
+    read_board_from_string(board, test_board_3, size_3);
+    print_board(board, size_3);
+    cout << endl;
+    solve_balance_row(board, size_3, row_3, announce);
+    print_board(board, size_3);
+    cout << endl;
+    
+}
+
+void test_solve_balance_column() {
+    int board[MAX_SIZE][MAX_SIZE];
+    int announce = true;
+    
+    cout << "testing solve_balance_column" << endl << endl;
+// test case 1
+    string test_board_1[] =
+    {"X---",
+     "XOO-",
+     "-XOX",
+     "-XX-"};
+    
+    int size_1 = 4;
+    int col_1 = 0;
+    
+    read_board_from_string(board, test_board_1, size_1);
+    print_board(board, size_1);
+    cout << endl;
+    solve_balance_column(board, size_1, col_1, announce);
+    print_board(board, size_1);
+    cout << endl;
+ // test case 2
+    string test_board_2[] =
+       {"XO--",
+        "XOO-",
+        "OXOX",
+        "OXX-"};
+    
+    int size_2 = 4;
+    int col_2 = 1;
+    
+    read_board_from_string(board, test_board_2, size_2);
+    print_board(board, size_2);
+    cout << endl;
+    solve_balance_column(board, size_2, col_2, announce);
+    print_board(board, size_2);
+    cout << endl;
 }
 
 
-///////////////////////////////////////
-// GAMEPLAY FUNCTIONS /////////////////
-///////////////////////////////////////
 
-bool board_is_solved(const int board[MAX_SIZE][MAX_SIZE], int size) {
-    // your code here
-    return false;
-}
-
-bool check_valid_input(int size, int row_input, char col_input,
-                       char color_char, int &row, int &col) {
-    // your code here
-    return false;
-}
-
-bool check_valid_move(const int original_board[MAX_SIZE][MAX_SIZE],
-                      const int current_board[MAX_SIZE][MAX_SIZE],
-                      int size, int row, int col, int color) {
-    // your code here
-    return false;
-}
-
-
-///////////////////////////////////////
-// S'MORE FUNCTIONS ///////////////////
-///////////////////////////////////////
-
-
-void solve_lookahead_row(int board[MAX_SIZE][MAX_SIZE],
-                         int size,
-                         int row,
-                         bool announce) {
-    // your code here
-}
-
-void solve_lookahead_column(int board[MAX_SIZE][MAX_SIZE],
-                            int size,
-                            int col,
-                            bool announce) {
-    // your code here
-}
