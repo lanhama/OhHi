@@ -778,6 +778,73 @@ void test_check_valid_input() {
     // test case 5
 }
 
-
+void test_check_valid_move() {
+    int original_board[MAX_SIZE][MAX_SIZE];
+    int current_board[MAX_SIZE][MAX_SIZE];
+    cout << "testing check_valid_move" << endl << endl;
+    
+    string test_original_board_1[] =
+       {"----",
+        "XXO-",
+        "-XO-",
+        "--X-"};
+    
+    string test_current_board_1[] =
+       {"---X",
+        "XXOO",
+        "XXO-",
+        "--X-"};
+    
+    int size = 4;
+    read_board_from_string(original_board, test_original_board_1, size);
+    print_board(original_board, size);
+    read_board_from_string(current_board, test_current_board_1, size);
+    print_board(current_board, size);
+    // test case 1
+    int row_1 = 3;
+    int col_1 = 2;
+    int color_1 = BLUE;
+    
+    cout << "original squares error: " << endl <<
+    check_valid_move(original_board, current_board, size, row_1, col_1, color_1)
+    << endl;
+    
+    //test case 2
+    int row_2 = 2;
+    int col_2 = 3;
+    int color_2 = BLUE;
+    
+    cout << "move breaks rule: " << endl <<
+    check_valid_move(original_board, current_board, size, row_2, col_2, color_2)
+    << endl;
+    
+    //test case 3
+    int row_3 = 0;
+    int col_3 = 0;
+    int color_3 = BLUE;
+    
+    cout << "should = 1 (true): " << 
+    check_valid_move(original_board, current_board, size, row_3, col_3, color_3)
+    << endl;
+    
+    //test case 4
+    int row_4 = 1;
+    int col_4 = 3;
+    int color_4 = UNKNOWN;
+    
+    cout << "should = 1 (true): " <<
+    check_valid_move(original_board, current_board, size, row_4, col_4, color_4)
+    << endl;
+    
+    //test case 5
+    int row_5 = 0;
+    int col_5 = 3;
+    int color_5 = BLUE;
+    
+    cout << "should = 1 (true): " <<
+    check_valid_move(original_board, current_board, size, row_5, col_5, color_5)
+    << endl;
+    cout << endl;
+}
 
 
