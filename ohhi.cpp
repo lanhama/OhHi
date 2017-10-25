@@ -5,16 +5,17 @@
  * Project 3: 0h h1
  * Fall 2017
  *
- * Adam Schreck, Andrew Lanham
- * schrecka, lanhama
+ * Andrew Lanham, Adam Schreck
+ * lanhama, schrecka
  *
- * <#A description of the project here#>
+ * In this project, you will develop a command-line application to read, check, solve, and play basic instances of 0h h1, a Sudoku-like puzzle game
  */
 
 #include <iostream>
 #include <cctype>
 #include "utility.h"
 #include "ohhi.h"
+#include "driver.h"
 
 ///////////////////////////////////////
 // UTILITY FUNCTIONS //////////////////
@@ -236,7 +237,6 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
 }
 
 
-
 void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
                        int size,
                        int row,
@@ -270,8 +270,6 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
         }
     }
 }
-
-
 
 void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
                           int size,
@@ -316,8 +314,7 @@ bool board_is_solved(const int board[MAX_SIZE][MAX_SIZE], int size) {
     //makes sure no unknown squares
     if (count_unknown_squares(board, size) == 0) {
         // makes sure rules are followed
-        if (board_has_no_threes(board, size)
-                && board_has_no_duplicates(board, size)) {
+        if (board_is_valid(board, size)) {
             return true;
         }
         else {
@@ -326,7 +323,7 @@ bool board_is_solved(const int board[MAX_SIZE][MAX_SIZE], int size) {
     }
     else {
         return false;
-    
+        
     }
 }
 
@@ -336,34 +333,36 @@ bool check_valid_input(int size, int row_input, char col_input,
     int k = 0;
     
     // toupper function converts the char to an upper case letter.
-    if (((row_input >= 1) && (row_input <= size))
-            && ((toupper(col_input) >= 'A')
-            && (toupper(col_input) <= ('A' + size - 1)))) {
-        if (toupper(color_char) == 'X' || toupper(color_char) == 'O'
-                || toupper(color_char) == '-') {
+    if (((row_input >= 1) && (row_input <= size)) && ((toupper(col_input) >= 'A') && (toupper(col_input) <= ('A' + size - 1
+)))) {
+        if (toupper(color_char) == 'X' || toupper(color_char) == 'O' ||(color_char) == '-') {
+           
             row = row_input - 1;
+
             for (colLetter = 'A'; colLetter < toupper(col_input); colLetter++) {
                 k++;
             }
-                col = k;
-                return true;
+            col = k;
+            return true;
             }
         }
     cout << "Invalid input" << endl;
     return false;
+}
 
 bool check_valid_move(const int original_board[MAX_SIZE][MAX_SIZE],
                       const int current_board[MAX_SIZE][MAX_SIZE],
                       int size, int row, int col, int color) {
     int copy_board[MAX_SIZE][MAX_SIZE];
-    int i, k;
+    int i;
+    int k;
     for (i = 0; i < size; i ++) {
         for  (k = 0; k < size; k++) {
             copy_board[i][k] = current_board[i][k];
         }
     }
     if (current_board[row][col] == original_board[row][col]
-            && current_board[row][col] != UNKNOWN) {
+        && current_board[row][col] != UNKNOWN) {
         cout << "Sorry, original squares cannot be changed." << endl;
         return false;
     }
