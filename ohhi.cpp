@@ -200,14 +200,14 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
     for (i = 0; i < (size - 2); i++) {
         if (board[i + 1][col] == board[i + 2][col] && board[i][col] == UNKNOWN) {
             if (board[i + 1][col] == BLUE) {
-                mark_square_as(board, size, col, i, RED, announce);
+                mark_square_as(board, size, i, col, RED, announce);
             }
             else if (board[i + 1][col] == RED) {
-                mark_square_as(board, size, col, i, BLUE, announce);
+                mark_square_as(board, size, i, col, BLUE, announce);
             }
         }
         //checks for two consecutive in a column
-        if (board[i][col] == board[i + 1][col] && board[i + 2][col] == UNKNOWN){
+        else if (board[i][col] == board[i + 1][col] && board[i + 2][col] == UNKNOWN){
             if (board[i][col] == BLUE) {
                 mark_square_as(board, size, (i + 2), col, RED, announce);
             }
@@ -216,7 +216,7 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
             }
         }
         //checks for color sandwich
-        if (board[i + 1][col] == UNKNOWN) {
+       else if (board[i + 1][col] == UNKNOWN) {
             if (board[i][col] == board[i + 2][col]) {
                 if (board[i][col] == BLUE) {
                     mark_square_as(board, size, (i + 1), col, RED, announce);
