@@ -154,54 +154,36 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
                           int row,
                           bool announce) {
     int i;
-    int k;
-    //checks for two in a row
     
+    //checks for two in a row
     for (i = 0; i < (size - 2); i++) {
         if (i == 0 && board[row][i] == UNKNOWN) {
             if (board[row][i + 1] == board[row][i + 2]) {
-                mark_square_as(board, size, row, i,
-                               opposite_color(board[row][i + 1]), announce);
+                if (board[row][i + 1] == BLUE) {
+                    mark_square_as(board, size, row, i, RED, announce);
+                }
+                if (board[row][i + 1] == RED) {
+                    mark_square_as(board, size, row, i, BLUE, announce);
+                }
             }
         }
         if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
-            mark_square_as(board, size, row, (i + 2),
-                           opposite_color(board[row][i]), announce);
-        }
-        //checks for color sandwich
-        if (board[row][i + 1] == UNKNOWN) {
-            if (board[row][i] == board[row][i + 2]) {
-                mark_square_as(board, size, row, (i + 1),
-                               opposite_color(board[row][i]), announce);
+            if (board[row][i] == BLUE) {
+                mark_square_as(board, size, row, (i + 2), RED, announce);
+            }
+            else if (board[row][i] == RED) {
+                mark_square_as(board, size, row, (i + 2), BLUE, announce);
             }
         }
-    }
-    for (k = 0; k > 1; k--) {
-        if (k == 0 && board[row][k] == UNKNOWN) {
-            if (board[row][k - 1] == board[row][k - 2]) {
-                mark_square_as(board, size, row, k,
-                               opposite_color(board[row][k + 1]), announce);
-            }
-        }
-        if (board[row][k] == board[row][k - 1] && board[row][k - 2] == UNKNOWN){
-            mark_square_as(board, size, row, (k - 2),
-                           opposite_color(board[row][k]), announce);
-        }
-        //checks for color sandwich
-        if (board[row][k + 1] == UNKNOWN) {
-            if (board[row][k] == board[row][k - 2]) {
-                mark_square_as(board, size, row, (k - 1),
-                               opposite_color(board[row][k]), announce);
-            }
-        }
-    }
-}
-
     //checks for color sandwich
         if (board[row][i + 1] == UNKNOWN) {
             if (board[row][i] == board[row][i + 2]) {
-                mark_square_as(board, size, row, (i + 1),
-                               opposite_color(board[row][i]), announce);
+                if (board[row][i] == BLUE) {
+                    mark_square_as(board, size, row, (i + 1), RED, announce);
+                }
+                else if (board[row][i] == RED) {
+                    mark_square_as(board, size, row, (i + 1), BLUE, announce);
+                }
             }
         }
     }
