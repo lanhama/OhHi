@@ -323,8 +323,27 @@ bool check_valid_input(int size, int row_input, char col_input,
 bool check_valid_move(const int original_board[MAX_SIZE][MAX_SIZE],
                       const int current_board[MAX_SIZE][MAX_SIZE],
                       int size, int row, int col, int color) {
-    // your code here
-    return false;
+    int copy_board[MAX_SIZE][MAX_SIZE];
+    int i, k;
+    for (i = 0; i < size; i ++) {
+        for  (k = 0; k < size; k++) {
+            copy_board[i][k] = current_board[i][k];
+        }
+    }
+    if (current_board[row][col] == original_board[row][col]
+            && current_board[row][col] != UNKNOWN) {
+        cout << "Sorry, original squares cannot be changed." << endl;
+        return false;
+    }
+    copy_board[row][col] = color;
+    if (board_has_no_threes(copy_board, size)
+        && board_has_no_duplicates(copy_board, size)) {
+        return true;
+    }
+    else {
+        cout << "Sorry, that move violates a rule." << endl;
+        return false;
+    }
 }
 
 
