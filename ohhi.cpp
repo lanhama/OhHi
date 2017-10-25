@@ -167,7 +167,7 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
             }
         }
         //checks for two of same color for i and i+1
-        if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
+        else if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
             if (board[row][i] == BLUE) {
                 mark_square_as(board, size, row, i + 2, RED, announce);
             }
@@ -176,7 +176,7 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
             }
         }
         //checks for color sandwich
-        if (board[row][i + 1] == UNKNOWN) {
+        else if (board[row][i + 1] == UNKNOWN) {
             if (board[row][i] == board[row][i + 2]) {
                 if (board[row][i] == BLUE) {
                     mark_square_as(board, size, row, i + 1, RED, announce);
