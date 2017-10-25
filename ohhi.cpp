@@ -5,11 +5,10 @@
  * Project 3: 0h h1
  * Fall 2017
  *
- * Adam Schreck, Andrew Lanham
- * schrecka, lanhama
+ * Andrew Lanham, Adam Schreck
+ * lanhama, schrecka
  *
- * In this project, you will develop a command-line application to read, check,
- *      solve, and play basic instances of 0h h1, a Sudoku-like puzzle game.
+ * In this project, you will develop a command-line application to read, check, solve, and play basic instances of 0h h1, a Sudoku-like puzzle game
  */
 
 #include <iostream>
@@ -151,6 +150,7 @@ bool board_has_no_duplicates(const int board[MAX_SIZE][MAX_SIZE], int size) {
     return true;
 }
 
+
 ///////////////////////////////////////
 // SOLVING FUNCTIONS //////////////////
 ///////////////////////////////////////
@@ -164,7 +164,7 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
     
     for (i = 0; i < (size - 2); i++) {
         // checks for two of same color after i
-        if (board[row][i + 1] == board[row][i + 2] && board[row][i] == UNKNOWN){
+        if (board[row][i + 1] == board[row][i +2] && board[row][i] == UNKNOWN) {
             if (board[row][i + 1] == BLUE) {
                 mark_square_as(board, size, row, i, RED, announce);
             }
@@ -173,8 +173,7 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
             }
         }
         //checks for two of same color for i and i+1
-        else if (board[row][i] == board[row][i + 1]
-                     && board[row][i + 2] == UNKNOWN){
+        else if (board[row][i] == board[row][i + 1] && board[row][i + 2] == UNKNOWN){
             if (board[row][i] == BLUE) {
                 mark_square_as(board, size, row, i + 2, RED, announce);
             }
@@ -196,6 +195,7 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
         
     }
 }
+
 
 void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
                              int size,
@@ -234,6 +234,8 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
         }
     }
 }
+
+
 void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
                        int size,
                        int row,
@@ -241,7 +243,6 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
     int i;
     int k;
     int n;
-    
     int redCount = 0;
     int blueCount = 0;
     for (i = 0; i < size; i++) {
@@ -251,6 +252,7 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
         if (board[row][i] == BLUE) {
             blueCount++;
         }
+        
     }
     if (redCount == (size / 2)) {
         for (k = 0; k < size;k++) {
@@ -302,6 +304,7 @@ void solve_balance_column(int board[MAX_SIZE][MAX_SIZE],
     }
 }
 
+
 ///////////////////////////////////////
 // GAMEPLAY FUNCTIONS /////////////////
 ///////////////////////////////////////
@@ -319,7 +322,7 @@ bool board_is_solved(const int board[MAX_SIZE][MAX_SIZE], int size) {
     }
     else {
         return false;
-    
+        
     }
 }
 
@@ -330,18 +333,19 @@ bool check_valid_input(int size, int row_input, char col_input,
     
     // toupper function converts the char to an upper case letter.
     if (((row_input >= 1) && (row_input <= size))
-            && ((toupper(col_input) >= 'A')
+        && ((toupper(col_input) >= 'A')
             && (toupper(col_input) <= ('A' + size - 1)))) {
-        if (toupper(color_char) == 'X' || toupper(color_char) == 'O'
-                || toupper(color_char) == '-') {
+        if (toupper(color_char) == 'X' || toupper(color_char) == 'O' ||(color_char) == '-') {
+            
             row = row_input - 1;
+            
             for (colLetter = 'A'; colLetter < toupper(col_input); colLetter++) {
                 k++;
             }
-                col = k;
-                return true;
-            }
+            col = k;
+            return true;
         }
+    }
     cout << "Sorry, that's not a valid input." << endl;
     return false;
 }
@@ -370,7 +374,6 @@ bool check_valid_move(const int original_board[MAX_SIZE][MAX_SIZE],
         return false;
     }
 }
-
 
 
 ///////////////////////////////////////
