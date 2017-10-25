@@ -732,6 +732,52 @@ void test_board_is_solved() {
     cout << endl;
 }
 
+void test_check_valid_input() {
+    // test case 1
+    int size_1 = 4;
+    int rowInput = 2;
+    char colInput = 'A';
+    char colorChar = 'X';
+    int row = -1;
+    int col = -1;
+    check_valid_input(size_1, rowInput, colInput, colorChar, row, col);
+    cout << "number of rows: " << row << endl;
+    cout << "number of columns: " << col << endl;
+    //test case 2
+    int size_2 = 4;
+    int rowInput_2 = 0;
+    char colInput_2 = 'A';
+    char colorChar_2 = 'X';
+    int row_2 = -1;
+    int col_2 = -1;
+    check_valid_input(size_2, rowInput_2, colInput_2, colorChar_2, row_2, col_2);
+    cout << "number of rows: " << row_2 << endl;
+    cout << "number of columns: " << col_2 << endl;
+    // test case 3
+    int size_3 = 4;
+    int rowInput_3 = 2;
+    char colInput_3 = 'f';
+    char colorChar_3 = 'X';
+    int row_3 = -1;
+    int col_3 = -1;
+    cout << "should return invalid input: " << endl;
+    check_valid_input(size_3, rowInput_3, colInput_3, colorChar_3, row_3, col_3);
+    cout << "number of rows: " << row_3 << endl;
+    cout << "number of columns: " << col_3 << endl;
+    //test case 4
+    int size_4 = 4;
+    int rowInput_4 = 2;
+    char colInput_4 = 'f';
+    char colorChar_4 = 'Y';
+    int row_4 = -1;
+    int col_4 = -1;
+    cout << "should return invalid input: " << endl;
+    check_valid_input(size_4, rowInput_4, colInput_4, colorChar_4, row_4, col_4);
+    cout << "number of rows: " << row_4 << endl;
+    cout << "number of columns: " << col_4 << endl;
+    // test case 5
+}
+
 
 
 
