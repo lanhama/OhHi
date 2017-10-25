@@ -27,6 +27,7 @@ void test_solve_three_in_a_column();
 void test_solve_balance_row();
 void test_solve_balance_column();
 void test_board_is_solved();
+void test_check_valid_move();
 
 int main() {
     test_count_unknown_squares();
@@ -41,6 +42,7 @@ int main() {
     test_solve_balance_row();
     test_solve_balance_column();
     test_board_is_solved();
+    test_check_valid_move();
 
     return 0;
 }
