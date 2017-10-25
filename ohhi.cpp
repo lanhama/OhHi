@@ -132,13 +132,19 @@ bool cols_are_different(const int board[MAX_SIZE][MAX_SIZE],
 
 bool board_has_no_duplicates(const int board[MAX_SIZE][MAX_SIZE], int size) {
     int i;
-    
+    int k;
     for (i = 0; i < (size - 1); i++) {
-        if (!(rows_are_different(board, size, i, (i + 1)))) {
-            return false;
+        for (k = (i + 1); k <= (size - 1); k++) {
+            if (!(rows_are_different(board, size, i, (k)))) {
+                return false;
+            }
         }
-        if (!(cols_are_different(board, size, i, (i + 1)))) {
-            return false;
+    }
+    for (i = 0; i < (size - 1); i++) {
+        for (k = (i + 1); k <= (size - 1); k++) {
+            if (!(cols_are_different(board, size, i, (k)))) {
+                return false;
+            }
         }
     }
     return true;
