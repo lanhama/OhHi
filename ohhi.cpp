@@ -203,7 +203,7 @@ void solve_three_in_a_column(int board[MAX_SIZE][MAX_SIZE],
             if (board[i + 1][col] == board[i + 2][col]) {
                 if (board[i + 1][col] == BLUE) {
                     mark_square_as(board, size, i, col, RED, announce);
-                }
+                }a
                 if (board[i + 1][col] == RED) {
                     mark_square_as(board, size, i, col, BLUE, announce);
                 }
@@ -284,7 +284,7 @@ void solve_balance_row(int board[MAX_SIZE][MAX_SIZE],
     if (blueCount == (size / 2)) {
         for (n = 0; n < size; n++) {
             if (board[row][n] == UNKNOWN) {
-                mark_square_as(board, size, row, n, BLUE, announce);
+                mark_square_as(board, size, row, n, RED, announce);
             }
         }
     }
