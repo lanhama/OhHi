@@ -303,20 +303,22 @@ bool board_is_solved(const int board[MAX_SIZE][MAX_SIZE], int size) {
 
 bool check_valid_input(int size, int row_input, char col_input,
                        char color_char, int &row, int &col) {
-    int i;
+    char colLetter = 'A';
+    int k = 0;
     // toupper function converts the char to an upper case letter.
     if (((row_input >= 1) && (row_input <= size)) && ((toupper(col_input) >= 'A') && (toupper(col_input) < ('A' + size - 1)))) {
         if (toupper(color_char) == 'X' || toupper(color_char) == 'O' || toupper(color_char) == '-') {
            
-            for (i = 0; i < size; i++) {
-                row = i;
-                col = i;
+            row = size - 1;
+
+            for (colLetter = 'A'; colLetter != col_input; colLetter++) {
+                k++;
+            }
+            col = k;
             }
             return true;
         }
-        
-    }
-    cout << "Invalid input";
+    cout << "Invalid input" << endl;
     return false;
 }
 
