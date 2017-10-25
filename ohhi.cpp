@@ -154,8 +154,9 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
                           int row,
                           bool announce) {
     int i;
-    
+    int k;
     //checks for two in a row
+    
     for (i = 0; i < (size - 2); i++) {
         if (i == 0 && board[row][i] == UNKNOWN) {
             if (board[row][i + 1] == board[row][i + 2]) {
@@ -167,6 +168,35 @@ void solve_three_in_a_row(int board[MAX_SIZE][MAX_SIZE],
             mark_square_as(board, size, row, (i + 2),
                            opposite_color(board[row][i]), announce);
         }
+        //checks for color sandwich
+        if (board[row][i + 1] == UNKNOWN) {
+            if (board[row][i] == board[row][i + 2]) {
+                mark_square_as(board, size, row, (i + 1),
+                               opposite_color(board[row][i]), announce);
+            }
+        }
+    }
+    for (k = 0; k > 1; k--) {
+        if (k == 0 && board[row][k] == UNKNOWN) {
+            if (board[row][k - 1] == board[row][k - 2]) {
+                mark_square_as(board, size, row, k,
+                               opposite_color(board[row][k + 1]), announce);
+            }
+        }
+        if (board[row][k] == board[row][k - 1] && board[row][k - 2] == UNKNOWN){
+            mark_square_as(board, size, row, (k - 2),
+                           opposite_color(board[row][k]), announce);
+        }
+        //checks for color sandwich
+        if (board[row][k + 1] == UNKNOWN) {
+            if (board[row][k] == board[row][k - 2]) {
+                mark_square_as(board, size, row, (k - 1),
+                               opposite_color(board[row][k]), announce);
+            }
+        }
+    }
+}
+
     //checks for color sandwich
         if (board[row][i + 1] == UNKNOWN) {
             if (board[row][i] == board[row][i + 2]) {
