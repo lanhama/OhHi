@@ -5,10 +5,11 @@
  * Project 3: 0h h1 Test Suite
  * Fall 2017
  *
- * Andrew Lanham, Adam Schreck
- * lanhama, schrecka
+ * Names: Adam Schreck, Andrew Lanham
+ * Uniqnames: schrecka, lanhama
  *
- * OHHI Game
+ * In this project, you will develop a command-line application to read, check,
+ *      solve, and play basic instances of 0h h1, a Sudoku-like puzzle game.
  */
 
 #include <iostream>
@@ -27,6 +28,7 @@ void test_solve_three_in_a_column();
 void test_solve_balance_row();
 void test_solve_balance_column();
 void test_board_is_solved();
+void test_check_valid_input();
 void test_check_valid_move();
 
 int main() {
@@ -43,6 +45,7 @@ int main() {
     test_solve_balance_column();
     test_board_is_solved();
     test_check_valid_move();
+    test_check_valid_input();
 
     return 0;
 }
@@ -661,6 +664,22 @@ void test_solve_balance_row() {
     print_board(board, size_3);
     cout << endl;
     
+    // test case 4
+    string test_board_4[] =
+       {"X-X-",
+        "XXOO",
+        "--OO",
+        "XXXX"};
+    
+    int size_4 = 4;
+    int row_4 = 2;
+    
+    read_board_from_string(board, test_board_4, size_4);
+    print_board(board, size_4);
+    cout << endl;
+    solve_balance_row(board, size_4, row_4, announce);
+    print_board(board, size_4);
+    cout << endl;
 }
 
 void test_solve_balance_column() {
@@ -732,53 +751,22 @@ void test_board_is_solved() {
     << board_is_solved(board, size_2) << endl;
     
     cout << endl;
+    
+    // test case 3
+    string test_board_3[] =
+       {"OOXO",
+        "OXXO",
+        "XOOX",
+        "XXOO"};
+    
+    int size_3 = 4;
+    read_board_from_string(board, test_board_3, size_3);
+    cout << "should = 0 (false): "
+    << board_is_solved(board, size_2) << endl;
+    
+    cout << endl;
 }
 
-void test_check_valid_input() {
-    // test case 1
-    int size_1 = 4;
-    int rowInput = 2;
-    char colInput = 'A';
-    char colorChar = 'X';
-    int row = -1;
-    int col = -1;
-    check_valid_input(size_1, rowInput, colInput, colorChar, row, col);
-    cout << "number of rows: " << row << endl;
-    cout << "number of columns: " << col << endl;
-    //test case 2
-    int size_2 = 4;
-    int rowInput_2 = 0;
-    char colInput_2 = 'A';
-    char colorChar_2 = 'X';
-    int row_2 = -1;
-    int col_2 = -1;
-    check_valid_input(size_2, rowInput_2, colInput_2, colorChar_2, row_2, col_2);
-    cout << "number of rows: " << row_2 << endl;
-    cout << "number of columns: " << col_2 << endl;
-    // test case 3
-    int size_3 = 4;
-    int rowInput_3 = 2;
-    char colInput_3 = 'f';
-    char colorChar_3 = 'X';
-    int row_3 = -1;
-    int col_3 = -1;
-    cout << "should return invalid input: " << endl;
-    check_valid_input(size_3, rowInput_3, colInput_3, colorChar_3, row_3, col_3);
-    cout << "number of rows: " << row_3 << endl;
-    cout << "number of columns: " << col_3 << endl;
-    //test case 4
-    int size_4 = 4;
-    int rowInput_4 = 2;
-    char colInput_4 = 'f';
-    char colorChar_4 = 'Y';
-    int row_4 = -1;
-    int col_4 = -1;
-    cout << "should return invalid input: " << endl;
-    check_valid_input(size_4, rowInput_4, colInput_4, colorChar_4, row_4, col_4);
-    cout << "number of rows: " << row_4 << endl;
-    cout << "number of columns: " << col_4 << endl;
-    // test case 5
-}
 
 void test_check_valid_move() {
     int original_board[MAX_SIZE][MAX_SIZE];
@@ -849,4 +837,58 @@ void test_check_valid_move() {
     cout << endl;
 }
 
+void test_check_valid_input() {
+    // test case 1
+    int size_1 = 4;
+    int rowInput = 2;
+    char colInput = 'A';
+    char colorChar = 'X';
+    int row = -1;
+    int col = -1;
+    check_valid_input(size_1, rowInput, colInput, colorChar, row, col);
+    cout << "number of rows: " << row << endl;
+    cout << "number of columns: " << col << endl;
+    //test case 2
+    int size_2 = 4;
+    int rowInput_2 = 0;
+    char colInput_2 = 'A';
+    char colorChar_2 = 'X';
+    int row_2 = -1;
+    int col_2 = -1;
+    check_valid_input(size_2, rowInput_2, colInput_2, colorChar_2, row_2, col_2);
+    cout << "number of rows: " << row_2 << endl;
+    cout << "number of columns: " << col_2 << endl;
+    // test case 3
+    int size_3 = 4;
+    int rowInput_3 = 2;
+    char colInput_3 = 'f';
+    char colorChar_3 = 'X';
+    int row_3 = -1;
+    int col_3 = -1;
+    cout << "should return invalid input: " << endl;
+    check_valid_input(size_3, rowInput_3, colInput_3, colorChar_3, row_3, col_3);
+    cout << "number of rows: " << row_3 << endl;
+    cout << "number of columns: " << col_3 << endl;
+    //test case 4
+    int size_4 = 4;
+    int rowInput_4 = 2;
+    char colInput_4 = 'f';
+    char colorChar_4 = 'Y';
+    int row_4 = -1;
+    int col_4 = -1;
+    cout << "should return invalid input: " << endl;
+    check_valid_input(size_4, rowInput_4, colInput_4, colorChar_4, row_4, col_4);
+    cout << "number of rows: " << row_4 << endl;
+    cout << "number of columns: " << col_4 << endl << endl;
+    // test case 5
+    int size_5 = 4;
+    int rowInput_5 = 4;
+    char colInput_5 = 'c';
+    char colorChar_5 = 'X';
+    int row_5 = -1;
+    int col_5 = -1;
+    check_valid_input(size_5, rowInput_5, colInput_5, colorChar_5, row_5, col_5);
+    cout << "number of rows: " << row_5 << endl;
+    cout << "number of columns: " << col_5 << endl;
+}
 
